@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { sampleTickets, venues, type SampleTicket } from "@/lib/samples";
 import { sizeTicket, TicketError } from "@/lib/ticket";
+import { planGroups } from "@/lib/plans";
 
 function TicketCard({ t, hidden }: { t: SampleTicket; hidden: boolean }) {
   return (
@@ -198,21 +199,9 @@ export function CommandList() {
   );
 }
 
-const plans = [
-  { group: "Starting out", items: [
-    { name: "Research", m: 0, y: 0, desc: "Market briefs, a paper desk and three backtests a month." },
-    { name: "Basic", m: 29, y: 290, desc: "One live broker, the Desk Lead and Risk Manager, 25 backtests." },
-    { name: "Advanced", m: 79, y: 790, desc: "Three brokers, the full seven-role desk, approve by text, Guardian." },
-  ] },
-  { group: "Serious capital", items: [
-    { name: "Pro", m: 199, y: 1990, desc: "Every broker, Autopilot for graduated strategies, Odds Lens, API." },
-    { name: "Max", m: 499, y: 4990, desc: "Several desks, a public Passport, selling strategies to followers." },
-    { name: "Ultra", m: 1499, y: 14990, desc: "Seats for a team, audit exports, dedicated engines, a person to call." },
-  ] },
-];
-
 export function PriceMenu() {
   const [annual, setAnnual] = useState(false);
+  const interval = annual ? "year" : "month";
   return (
     <div className="lists">
       <div style={{ gridColumn: "1 / -1" }}>
@@ -221,7 +210,7 @@ export function PriceMenu() {
           <button type="button" aria-pressed={annual} onClick={() => setAnnual(true)}>Yearly, two months free</button>
         </div>
       </div>
-      {plans.map((g) => (
+      {planGroups.map((g) => (
         <div key={g.group} className="group" style={{ marginTop: 0 }}>
           <h3>{g.group} {annual ? "($ a year)" : "($ a month)"}</h3>
           {g.items.map((p) => (
@@ -231,6 +220,15 @@ export function PriceMenu() {
                 <span>{(annual ? p.y : p.m).toLocaleString("en-US")}</span>
               </div>
               <p className="desc">{p.desc}</p>
+              {p.m === 0 ? (
+                <a className="choose" href="/login?mode=signup">Start free</a>
+              ) : (
+                <form action="/api/checkout" method="post">
+                  <input type="hidden" name="plan" value={p.id} />
+                  <input type="hidden" name="interval" value={interval} />
+                  <button type="submit" className="choose">Choose {p.name}</button>
+                </form>
+              )}
             </div>
           ))}
         </div>

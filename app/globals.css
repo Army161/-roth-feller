@@ -200,6 +200,9 @@ button, input, select { font: inherit; color: inherit; }
 .menu .item + .item { margin-top: 22px; }
 .menu .row { display: flex; justify-content: space-between; gap: 16px; font-size: 24px; }
 .menu .desc { margin: 2px 0 0; color: var(--muted); font-size: 17px; max-width: 36ch; }
+.menu form { margin: 0; }
+.menu .choose { display: inline-block; margin-top: 8px; padding: 0; border: 0; background: none; color: var(--accent); font: inherit; font-size: 15px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.menu .choose:hover { color: var(--ink); }
 .menu .note { grid-column: 1 / 5; grid-row: 2; color: var(--muted); font-size: 17px; max-width: 30ch; margin: 0; }
 .menu .lists { grid-row: 1 / span 2; }
 .interval { display: inline-flex; background: var(--surface); margin-bottom: 32px; }

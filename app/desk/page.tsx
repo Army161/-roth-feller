@@ -14,7 +14,8 @@ const roles = [
   ["Trade Reviewer", "Grades process and outcome separately, in your journal."],
 ];
 
-export default async function DeskPage() {
+export default async function DeskPage({ searchParams }: { searchParams: Promise<{ billing?: string }> }) {
+  const { billing } = await searchParams;
   const supabase = await supabaseServer();
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user) redirect("/login");
@@ -31,10 +32,15 @@ export default async function DeskPage() {
       <header className="app-bar">
         <Link href="/" className="mark">Roth-Feller</Link>
         <span className="muted">{profile?.display_name} · {profile?.plan ?? "free"} plan</span>
+        {profile?.plan && profile.plan !== "free" && (
+          <form action="/api/billing/portal" method="post"><button className="link auth-alt" type="submit">Billing</button></form>
+        )}
         <form action="/auth/signout" method="post"><button className="link auth-alt" type="submit">Sign out</button></form>
       </header>
       <section className="app-main" aria-labelledby="desk-title">
         <h1 id="desk-title">{desk?.name ?? "My desk"}</h1>
+        {billing === "success" && <p role="status">Thank you. Your membership is active; it can take a moment to show here.</p>}
+        {billing === "soon" && <p role="status">Paid plans open shortly. Your desk runs on the free Research plan until then.</p>}
         <p className="muted">Mode: {desk?.mode ?? "paper"}. Live trading unlocks after your desk graduates from paper.</p>
 
         <h2>Tickets</h2>
