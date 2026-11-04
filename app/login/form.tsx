@@ -20,7 +20,8 @@ export function LoginForm() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(params.get("error") ? "That sign-in link has expired. Try again." : null);
 
-  const next = params.get("next") ?? "/desk";
+  const raw = params.get("next");
+  const next = raw && raw.startsWith("/") && !raw.startsWith("//") ? raw : "/desk";
   const redirectTo = () => `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
 
   async function oauth(provider: Provider) {
@@ -40,6 +41,8 @@ export function LoginForm() {
     setBusy(false);
     if (error) return setMessage(error.message);
     if (signup && !data.session) return setMessage(`Check ${email} for a link to confirm your account.`);
+    // API routes (such as resuming a checkout) need a full navigation, not a client transition.
+    if (next.startsWith("/api/")) return window.location.assign(next);
     router.push(next);
     router.refresh();
   }
