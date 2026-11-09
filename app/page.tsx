@@ -93,7 +93,7 @@ Filled 0.4827 @ 3,000.00. Stop resting. Reconciled with the exchange.`}</pre>
       <section className="section grid menu reveal" id="pricing" aria-labelledby="pricing-title">
         <h2 id="pricing-title">Membership</h2>
         <PriceMenu />
-        <p className="note">Cards, Apple Pay, Google Pay and USDC. Change plan or cancel whenever you like.</p>
+        <p className="note">Cards, Apple Pay and Google Pay. Change plan or cancel whenever you like.</p>
       </section>
 
       <section className="section faq-field" aria-labelledby="faq-title">

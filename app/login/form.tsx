@@ -5,11 +5,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { supabaseBrowser } from "@/lib/supabase/client";
 
 type Provider = "google" | "apple" | "github";
-const providers: { id: Provider; label: string }[] = [
+// Social sign-in is off until each provider is set up in Supabase. Turn one on by listing it in
+// NEXT_PUBLIC_AUTH_PROVIDERS, e.g. "google,github,apple".
+const enabled = (process.env.NEXT_PUBLIC_AUTH_PROVIDERS ?? "").split(",").map((s) => s.trim());
+const allProviders: { id: Provider; label: string }[] = [
   { id: "google", label: "Continue with Google" },
   { id: "apple", label: "Continue with Apple" },
   { id: "github", label: "Continue with GitHub" },
 ];
+const providers = allProviders.filter((p) => enabled.includes(p.id));
 
 export function LoginForm() {
   const params = useSearchParams();
@@ -61,6 +65,7 @@ export function LoginForm() {
       <p className="auth-sub">
         {signup ? "It starts on paper. No broker keys and no card." : "Sign in to your desk."}
       </p>
+      {providers.length > 0 && (
       <div className="auth-providers">
         {providers.map((p) => (
           <button key={p.id} type="button" className="btn btn-quiet" disabled={busy} onClick={() => oauth(p.id)}>
@@ -68,6 +73,7 @@ export function LoginForm() {
           </button>
         ))}
       </div>
+      )}
       <form onSubmit={withPassword} className="auth-email">
         <label htmlFor="email">Email</label>
         <input id="email" type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
