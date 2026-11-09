@@ -316,6 +316,20 @@ button, input, select { font: inherit; color: inherit; }
 .app-roles div { background: var(--surface); padding: 16px; }
 .app-roles dt { font-weight: 500; }
 .app-roles dd { margin: 4px 0 0; color: var(--muted); font-size: 15px; }
+.app-roles .on { box-shadow: inset 3px 0 0 var(--good); }
+.role-tag { font-size: 12px; font-weight: 400; color: var(--muted); margin-left: 6px; }
+.app-roles .on .role-tag { color: var(--good); }
+.steps { margin: 32px 0 0; padding-left: 20px; display: grid; gap: 8px; max-width: 640px; }
+.steps li { padding-left: 4px; }
+.ticket-form { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px 16px; align-items: end; background: var(--surface); padding: 20px; }
+.ticket-form label { display: grid; gap: 6px; font-size: 14px; color: var(--muted); }
+.ticket-form input, .ticket-form select { background: var(--surface-2); border: 0; min-height: 44px; padding: 0 12px; font-size: 16px; color: var(--ink); width: 100%; }
+.ticket-preview { grid-column: 1 / -1; margin: 4px 0 0; font-variant-numeric: tabular-nums; }
+.ticket-form .btn { justify-self: start; }
+.btn-small { min-height: 36px; padding: 0 14px; font-size: 14px; }
+.table-wrap { overflow-x: auto; }
+.note-good { color: var(--good); }
+.note-bad { color: var(--bad); }
 .reveal-rows > * { opacity: 0; transform: translateX(-24px); transition: opacity 600ms var(--ease), transform 600ms var(--ease); }
 .reveal-rows.in > * { opacity: 1; transform: none; }
 .reveal-rows.in > *:nth-child(n) { transition-delay: calc(var(--i, 0) * 60ms); }
